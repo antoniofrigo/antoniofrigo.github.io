@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+/* Greetings traveller who likes to snoop on CSS */
+
+:root {
+  --background-body: #ffffff;
+  --background: #efefef;
+  --background-alt: #f7f7f7;
+
+  --text: #000000;
+
+  --links: #0076d1;
+  --focus: #0096bf;
+
+  --animation-duration: 0.2s;
+  --button-hover: #dddddd;
+
+}
+
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+  line-height: 1.4;
+
+  max-width: 720px;
+  margin: 20px auto;
+  padding: 0 10px;
+
+  color: var(--text-main);
+  background: var(--background-body);
+
+  text-rendering: optimizeLegibility;
+}
+a {
+	text-decoration: none;
+	color: var(--links);
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a.home {
+	text-decoration: none;
+	color: var(--text);
+}
+
+a.home:hover {
+	text-decoration: underline;
+}
+
+
+img.center {
+  margin-top: 10pt;
+  margin-bottom: 10pt;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  display: block;
+}
+
+figure.center {
+  margin-top: 10pt;
+  margin-bottom: 10pt;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  display: block;
+}
+
+figcaption.center {
+  margin-top: 10pt;
+  margin-bottom: 10pt;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  display: block;
+}
+
+.proj {
+  padding: 1pt 10px;
+  margin: 10pt 0;
+}
+
+.proj:nth-child(2n + 1){
+	background-color: #e6e6e6;
+}
+
+.proj:nth-child(2n){
+	background-color: #f2f2f2;
+}
+
+img.home {
+  width: 200px;
+}

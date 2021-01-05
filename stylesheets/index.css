@@ -1,0 +1,26 @@
+:root {
+  --background-body: #ffffff;
+  --background: #efefef;
+  --background-alt: #f7f7f7;
+
+  --text: #000000;
+
+  --links: #0076d1;
+  --focus: #0096bf;
+
+  --animation-duration: 0.2s;
+  --button-hover: #dddddd;
+
+}
+
+.top_wrapper {
+  display: flex;
+}
+
+.image_right {
+  margin: 30px;
+}
+
+.info {
+  margin-right: auto;
+}

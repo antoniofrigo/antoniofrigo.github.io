@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Antonio Frigo</title>
+    <link rel="stylesheet" href="../stylesheets/styles.css" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+</head>
+<body>
+  <div>
+    <div>
+      <h2><a class="home" href="../index.html" target="_self">Antonio Frigo</a></h2>
+    </div>  
+    <h2>PDM (Phase Dispersion Minimization)</h2>
+    <hr/>
+    <p><a href="https://github.com/antoniofrigo/pdm" target="_blank">GitHub Repository</a> (contains installation instructions)</p>
+    <p>Language: FORTRAN 2008</p>
+    <hr/>
+    <h3>Overview</h3>
+    <p><a href="https://en.wikipedia.org/wiki/Phase_dispersion_minimization"
+          target="_blank">Phase dispersion minimization</a> takes a time series
+        data set and finds a period such that the folded data set will be as "clean"
+        as possible, for some definition of "clean." A classic example is Cepheid variable
+        light curve folding where observations are spread out over thousands of days.
+        For instance, below is a folded light curve of <a
+          href="http://ogledb.astrouw.edu.pl/~ogle/OCVS/o.php?OGLE-BLG-CEP-027"
+          target="_blank">OGLE-BLG-CEP-027</a> using the period $P_0 =  0.2965282$ days.
+        The original data set was over 1800 observations over the course of 3000 days. 
+        <img class="center" src="images/OGLE-BLG-CEP-027_1.png" alt=""/>
+        The tricky part is computing the period very precisely so we can actually fold
+        the light curve. To do this, we use Stellingwerf's algorithm 
+        (<a
+          href="https://ui.adsabs.harvard.edu/abs/1978ApJ...224..953S/abstract"
+          target="_blank">full paper</a>). 
+    </p>
+
+    <p>Let the observations be in the form $(t_i, m_i)$ where $t_i$ is the time
+      in days and $m_i$ is the apparent magnitude. If there are $N$ observations, then
+      $$\sigma^2 = \frac{\sum (m_i - m)^2}{N-1}$$
+      is the variance of the entire set. If we bin these $N$ observations into $M$ 
+      (possibly non-disjoint) bins with $n_j$ elements and variance $s_j^2$, then 
+      the pooled variance $s^2$ is
+      $$s^2 = \frac{\sum (n_j-1)s_j^2}{\sum n_j - M}.$$
+      We construct our bins by taking all times $t_i\pmod \tau$ where $\tau$ is some
+      trial period and then binning accordingly. 
+    </p>
+
+    <p>
+      We now define the ratio $\Theta = s^2 / \sigma^2$. If our trial period is off
+      by even a small amount, there will be substantial scatter in the folded light curve
+      and thus we'd expect $\Theta$ to be near unity. However, if we've selected a $\tau$ 
+      that is sufficiently close to the true period, then the scatter will be substantially
+      less than thus $\Theta$ would be near zero.
+    </p>
+
+    <p>Clearly, the efficiency of this approach is (in part) governed by the
+      number of trial periods $\tau$ we use. We thus sample at Nyquist
+      frequency $\Delta f = \tfrac{1}{2 T}$ where $T$ is the total time interval of
+      observations.
+    </p>
+    
+    <h3>Segmentation and Secondary Scans</h3>
+    <p>
+      Even with our bound for the frequency interval, we still have a huge amount of 
+      possible periods to test. For instance, suppose in our example of OGLE-BLG-CEP-027
+      that we wanted to have a maximum frequency of 20 per day. With $T = 3000$ days, we'd
+      have 120,000 different trials. However, we can substantially accelerate this using a
+      <i>segmentation</i> process briefly described in Stellingwerf (2011). We take
+      advantage of the natural segmentation in the observations, as shown below.
+    </p>
+    <img class="center" style="width: 100%" src="images/blgcep027_segs.png" alt=""/>
+    <p>We split our dataset into $n_s$ observation and apply Stellingwerf's
+    method to each of these independently, with our frequency step letting $T$ be 
+    the width of the widest segment. We can then combine these through variance 
+    pooling and finally compute our $\Theta$ parameter at the end. A handy 
+    illustration for $M=5$ bins follows. </p>
+    <img class="center" src="images/segmentation.png" alt=""/>
+    <p>Intuitively, segmentation works because it makes an error in the period
+    guess less catastrophic. For large $T$, any error would get magnified 
+    when taking the periods modulo $\tau$, and thus would create huge scatter
+    in the final folded light curve. Segmentation allows for smaller, independent
+    segments, and thus allows a wider range of errors.</p>
+    
+    <p>After we've run through our first scan, we'll have a set of $\Theta$ and 
+    their associated $\tau$. However, we're not guaranteed to have found the 
+    period precisely just yet. To do this, we initialize a secondary scan to better
+    constrain the dip in the periodigram. In this case, an illustration tells more.</p>
+
+    <img class="center" style="width: 100%" src="images/blgcep027_freq.png" alt=""/>
+    <img class="center" style="width: 100%" src="images/blgcep027_freq_zoom.png" alt=""/>
+
+  </div>
+
+  <h3>Does it work?</h3>
+  <p>Yes, it does.</p>
+
+  <p>
+  The program does a decent job of finding the correct period, though there is still
+  some discrepancy between the "accepted" period and ours. In the case of OGLE-BLG-CEP-027,
+  we find a $P = 0.2965302 $ days, compared to $P_0 =  0.2965282$ days. Our folded light
+  curve follows.
+  </p>
+  <img class="center" style="width: 100%" src="images/blgcep027_curve.png" alt=""/>
+
+
+</body>
+
+</html>
+
