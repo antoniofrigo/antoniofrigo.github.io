@@ -15,6 +15,7 @@
   --animation-duration: 0.2s;
   --button-hover: #dddddd;
 
+
 }
 
 body {
@@ -28,8 +29,16 @@ body {
   color: var(--text-main);
   background: var(--background-body);
 
+  font-size: 13pt;
   text-rendering: optimizeLegibility;
 }
+
+@media only screen and (max-width: 500px){
+  body {
+    max-width: 92%;
+  }
+}
+
 a {
 	text-decoration: none;
 	color: var(--links);
@@ -76,19 +85,11 @@ figcaption.center {
   display: block;
 }
 
-.proj {
-  padding: 1pt 10px;
-  margin: 10pt 0;
+.back {
+  height: 13pt;
+  width: 13pt;
 }
 
-.proj:nth-child(2n + 1){
-	background-color: #e6e6e6;
-}
-
-.proj:nth-child(2n){
-	background-color: #f2f2f2;
-}
-
-img.home {
-  width: 200px;
+.back:hover {
+  text-decoration: underline;
 }

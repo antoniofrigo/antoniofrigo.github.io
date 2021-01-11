@@ -13,19 +13,16 @@
 
 }
 
-.top_wrapper {
-  display: flex;
-  flex-wrap: wrap;
+.proj {
+  padding: 1pt 10px;
+  margin: 10pt 0;
 }
 
-.image_right {
-  margin: 20px;
+.proj:nth-child(2n + 1){
+	background-color: #e6e6e6;
 }
 
-img.home {
-  width: 200px;
+.proj:nth-child(2n){
+	background-color: #f2f2f2;
 }
 
-.info {
-  margin-right: auto;
-}
