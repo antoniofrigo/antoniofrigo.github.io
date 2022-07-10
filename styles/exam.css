@@ -1,0 +1,65 @@
+:root {
+	--background-body: #ffffff;
+	--background: #efefef;
+	--background-alt: #f7f7f7;
+
+	--text: #000000;
+
+	--links: #0076d1;
+	--focus: #0096bf;
+
+	--animation-duration: 0.2s;
+	--button-hover: #dddddd;
+}
+
+.all_exams {
+}
+
+.wrapper {
+	display: flex;
+}
+
+.exam {
+	width: 100%;
+	padding: 10px;
+	display: flex;
+}
+
+.exam:nth-child(2n + 1) {
+	background-color: #e6e6e6;
+}
+
+.invitational {
+	font-weight: bold;
+	margin-right: auto;
+}
+
+.event {
+	margin-right: auto;
+}
+
+.author {
+	margin-left: auto;
+	font-size: 9pt;
+	vertical-align: baseline;
+}
+
+a,
+a.key {
+	margin-left: 2pt;
+	text-decoration: none;
+	color: var(--links);
+}
+
+a.key:hover {
+	text-decoration: underline;
+}
+
+.number {
+	width: 16pt;
+}
+
+.rest {
+	flex-grow: 1;
+	display: ?;
+}
